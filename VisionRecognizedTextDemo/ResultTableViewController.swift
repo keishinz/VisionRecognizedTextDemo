@@ -9,12 +9,15 @@
 import UIKit
 import Vision
 
+import Amplify
+
 class ResultTableViewController: UITableViewController {
     
     var observations = [VNRecognizedTextObservation]()
 
     var resultsArray = [String]()
     var resultString = String()
+    var translationString = String()
     
     var totalResults = [[String]]()
 
@@ -126,7 +129,31 @@ class ResultTableViewController: UITableViewController {
 
     
     @objc func translateResult() {
-        
+        translateText(text: resultString)
+    }
+    
+    func translateText(text:String) {
+        _ = Amplify.Predictions.convert(textToTranslate: text,
+                                        language: .english,
+                                        targetLanguage: .japanese,
+                                        options: PredictionsTranslateTextRequest.Options(),
+                                        listener: { (event) in
+            switch event {
+                case .completed(let result):
+                    print(result.text)
+//                    self.translationString = result.text
+                    DispatchQueue.main.async {
+                        let newViewController = TranslateViewController()
+                        newViewController.translation = result.text
+                        print(result.text)
+                        self.present(newViewController, animated: true, completion: nil)
+                }
+                
+                default:
+                    print("")
+                }
+        })
+
     }
     
 }
