@@ -34,7 +34,7 @@ class ViewController: UIViewController {
         super.loadView()
         
         view.addSubview(imageView)
-                
+        imageView.contentMode = .scaleAspectFit
         NSLayoutConstraint.activate([
             imageView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
             imageView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
@@ -98,6 +98,12 @@ class ViewController: UIViewController {
                 print(bestObservation?.confidence ?? 0)
 //                print(bestObservation?.boundingBox(for: Range<String.Index>))
             }
+            
+            let newViewController = ResultTableViewController()
+            newViewController.observations = observations
+            newViewController.modalPresentationStyle = .fullScreen
+            self.navigationController?.pushViewController(newViewController, animated: true)
+            
         }
         
 //        if let error = error {
