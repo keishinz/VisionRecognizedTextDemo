@@ -146,7 +146,7 @@ class ResultTableViewController: UITableViewController {
                         let newViewController = TranslateViewController()
                         newViewController.translation = result.text
                         print(result.text)
-                        self.present(newViewController, animated: true, completion: nil)
+                        self.navigationController?.pushViewController(newViewController, animated: true)
                 }
                 
                 default:
